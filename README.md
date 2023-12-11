@@ -2,6 +2,7 @@
 
 This repository contains a Node.js/Express.js application with RESTful API endpoints for a library or e-commerce application. The API allows you to interact with items in the library or products in the store.
 
+
 `This is a teamwork assignment where you will work as a team within your group`
 ## How to work
 1. One team member should fork the repo.
@@ -35,8 +36,9 @@ If you have a higher skill level and finish the previous requirements before the
 1. Implement search functionality to allow users to search for specific items or products based on keywords or specific fields (e.g., by title, by author).
 2. Integrate JWT authentication and authorization mechanisms to secure the API endpoints and restrict access to certain routes or operations.
 3. Add functionality to handle related resources (e.g., for a library, add routes to handle borrowing or returning books; for an e-commerce store, add routes for placing an order).
+4. new change 
 
-4. Peer Review:
+5. Peer Review:
    - Review the code and implementation of 2 assignments from other participants.
    - Provide constructive feedback and suggestions for improvement.
 
