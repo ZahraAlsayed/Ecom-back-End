@@ -20,6 +20,6 @@ export const handleLoginService = async (email: string, password: string) => {
     const error = createHttpError(404, 'You are banned. Please contact the authority')
     throw error
   }
-  const accessToken = generateJwtToken({ _id: user._id }, dev.app.jwtAccessKey, '7m')
+  const accessToken = generateJwtToken({ _id: user._id }, String(dev.app.jwtAccessKey), '7m')
   return { accessToken }
 }

@@ -16,7 +16,7 @@ export const isLoggedIn = async (req: CustomRequest, res: Response, next: NextFu
       const error = createHttpError(404, 'You are not logged in')
       throw error
     }
-    const decoded = (verifyJwtToken(accessToken, dev.app.jwtAccessKey)) as JwtPayload
+    const decoded = (verifyJwtToken(accessToken, String(dev.app.jwtAccessKey))) as JwtPayload
     if (!decoded) {
       const error = createHttpError(404, 'Invalid access token')
       throw error

@@ -41,7 +41,7 @@ export const processRegisterUserService = async (
     tokenPayload.image = imagePath
   }
 
-  const token = generateJwtToken(tokenPayload, dev.app.jwtUserActivationKey, '10m')
+  const token = generateJwtToken(tokenPayload, String(dev.app.jwtUserActivationKey), '10m')
 
   //send email hear => token inside the email
   const emailData = {
@@ -60,7 +60,7 @@ export const activeUser = async (token: '') => {
     throw createHttpError(400, 'please Provide a token')
   }
 
-  const decoded = verifyJwtToken(token, dev.app.jwtUserActivationKey)
+  const decoded = verifyJwtToken(token, String(dev.app.jwtUserActivationKey))
 
   if (!decoded) {
     throw createHttpError(401, 'Token is Invalid ')
@@ -162,7 +162,7 @@ export const forgetPasswordAction = async (email: string): Promise<string> => {
     const error = createHttpError(404, 'User not found')
     throw error
   }
-  const token = generateJwtToken({ email: email }, dev.app.jwtResetPasswordKey, '10m')
+  const token = generateJwtToken({ email: email }, String(dev.app.jwtResetPasswordKey), '10m')
   const emailData = {
     email: email,
     subjeect: 'Rest Password Email',
@@ -175,7 +175,7 @@ export const forgetPasswordAction = async (email: string): Promise<string> => {
 }
 
 export const resstPasswordAction = async (token: '', password: string) => {
-  const decoded = verifyJwtToken(token, dev.app.jwtResetPasswordKey) as JwtPayload
+  const decoded = verifyJwtToken(token, String(dev.app.jwtResetPasswordKey)) as JwtPayload
 
   const hashedPassword = await bcrypt.hash(password, 10)
 
