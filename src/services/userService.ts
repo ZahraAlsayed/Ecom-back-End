@@ -20,7 +20,7 @@ export const processRegisterUserService = async (
   phone: string,
   imagePath: string | undefined,
   isAdmin: boolean
-): Promise<string> => {
+) => {
   const isUserExists = await User.exists({ email })
 
   if (isUserExists) {
@@ -41,18 +41,18 @@ export const processRegisterUserService = async (
     tokenPayload.image = imagePath
   }
 
-  const token = generateJwtToken(tokenPayload, String(dev.app.jwtUserActivationKey), '10m')
+  const token = generateJwtToken(tokenPayload, String(dev.app.jwtUserActivationKey), '15m')
 
   //send email hear => token inside the email
   const emailData = {
     email: email,
     subjeect: 'Activate Your Account',
     html: `<h1>Hello ${name}</h1>
-      <p>Please activate your account by : <a href="http://localhost:5050/users/activate/${token}">click the following link</a></p>`,
+      <p>Please activate your account by : <a href="http://localhost:3000/users/activate/${token}">click the following link</a></p>`,
   }
   //send email
   await handleSendEmail(emailData)
-  return token
+  
 }
 
 export const activeUser = async (token: '') => {

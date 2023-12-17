@@ -49,7 +49,7 @@ export const processRegisterUserController = async (
 
 export const activateUser = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const token = req.body.token
+    const {token} = req.body
     const user = await activeUser(token)
 
     res.status(200).json({
