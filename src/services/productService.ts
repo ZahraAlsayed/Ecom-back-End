@@ -17,7 +17,7 @@ export const findAllProducts = async (page = 1, limit = 3, search = '') => {
   }
 
   const skip = (page - 1) * limit
-  const products: ProductsType[] = await Product.find(filter)
+  const products: ProductsType[] = await Product.find()
     .populate('category')
     .skip(skip)
     .limit(limit)

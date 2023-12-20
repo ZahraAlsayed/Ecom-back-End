@@ -40,9 +40,9 @@ const userRoutes = Router()
 userRoutes.post(
   '/process-register',
   uploadUsersimage.single('image'),
-  // isLoggedOut,
-  // userRegistrationValidator,
-  // runValidation,
+  isLoggedOut,
+  userRegistrationValidator,
+  runValidation,
   processRegisterUserController
 )
 userRoutes.post('/activate', activateUser)

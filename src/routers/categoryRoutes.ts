@@ -16,18 +16,40 @@ import { isAdmin, isLoggedIn } from '../middlewares/auth'
 
 const categoryRoutes = express.Router()
 
-categoryRoutes.get('/', isLoggedIn, isAdmin, getAllCategories)
+// categoryRoutes.get('/', isLoggedIn, isAdmin, getAllCategories)
+// categoryRoutes.get('/:id', getSingleCategoryById)
+// categoryRoutes.get('/:slug', getSingleCategoryBySlug)
+// categoryRoutes.post(
+//   '/',
+//   // isLoggedIn,
+//   // isAdmin,
+//   createCategoryValidation,
+//   runValidation,
+//   createCategory
+// )
+// categoryRoutes.put('/:id', isLoggedIn, isAdmin, updateSingleCategoryId)
+// categoryRoutes.put(
+//   '/:slug',
+//   isLoggedIn,
+//   isAdmin,
+//   createCategoryValidation,
+//   runValidation,
+//   updateSingleCategoryBySulg
+// )
+// categoryRoutes.delete('/:id', isLoggedIn, isAdmin, deleteSingleCategoryById)
+// categoryRoutes.delete('/:slug', isLoggedIn, isAdmin, deleteSingleCategoryBySlug)
+categoryRoutes.get('/',  getAllCategories)
 categoryRoutes.get('/:id', getSingleCategoryById)
 categoryRoutes.get('/:slug', getSingleCategoryBySlug)
 categoryRoutes.post(
   '/',
-  isLoggedIn,
-  isAdmin,
+  // isLoggedIn,
+  // isAdmin,
   createCategoryValidation,
   runValidation,
   createCategory
 )
-categoryRoutes.put('/:id', isLoggedIn, isAdmin, updateSingleCategoryId)
+categoryRoutes.put('/:id', updateSingleCategoryId)
 categoryRoutes.put(
   '/:slug',
   isLoggedIn,
@@ -36,7 +58,6 @@ categoryRoutes.put(
   runValidation,
   updateSingleCategoryBySulg
 )
-categoryRoutes.delete('/:id', isLoggedIn, isAdmin, deleteSingleCategoryById)
-categoryRoutes.delete('/:slug', isLoggedIn, isAdmin, deleteSingleCategoryBySlug)
+categoryRoutes.delete('/:id', deleteSingleCategoryById)
 
 export default categoryRoutes
