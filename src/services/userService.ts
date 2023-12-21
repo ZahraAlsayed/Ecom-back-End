@@ -39,6 +39,7 @@ export const processRegisterUserService = async (
 
   if (imagePath) {
     tokenPayload.image = imagePath
+    console.log(tokenPayload)
   }
 
   const token = generateJwtToken(tokenPayload, String(dev.app.jwtUserActivationKey), '15m')
@@ -52,7 +53,7 @@ export const processRegisterUserService = async (
   }
   //send email
   await handleSendEmail(emailData)
-  
+  return token
 }
 
 export const activeUser = async (token: '') => {
@@ -61,12 +62,11 @@ export const activeUser = async (token: '') => {
   }
 
   const decoded = verifyJwtToken(token, String(dev.app.jwtUserActivationKey))
-
+console.log(decoded)
   if (!decoded) {
     throw createHttpError(401, 'Token is Invalid ')
   }
   const useractive = await User.create(decoded)
-
   return useractive
 }
 

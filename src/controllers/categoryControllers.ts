@@ -3,7 +3,6 @@ import mongoose from 'mongoose'
 
 import { createHttpError } from '../util/createHTTPError'
 import {
-  createNewCategory,
   deleteCategoryById,
   deleteCategoryBySlug,
   findCategories,
@@ -14,6 +13,8 @@ import {
 } from '../services/categoryService'
 import { CategoryInput } from '../types/categoryTypes'
 import { handleCastError } from '../util/handelMongoID'
+import slugify from 'slugify'
+import { Category } from '../models/categorySchema'
 
 export const getAllCategories = async (req: Request, res: Response, next: NextFunction) => {
   try {
@@ -62,14 +63,30 @@ export const getSingleCategoryBySlug = async (req: Request, res: Response, next:
 export const createCategory = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { name } = req.body
-    await createNewCategory(name)
-    res.status(201).json({
+    const categoryExist = await Category.exists({ name: name })
+
+    if (categoryExist) {
+      const error = createHttpError(409, 'Category already exists with this name')
+      throw error
+    }
+
+    const newCategory = new Category({
+      name,
+      slug: slugify(name),
+    })
+
+    const category = await newCategory.save()
+
+    console.log(category)
+    res.status(201).send({
       message: 'The category has been created successfully',
+      payload: category,
     })
   } catch (error) {
     next(error)
   }
 }
+
 
 export const updateSingleCategoryId = async (req: Request, res: Response, next: NextFunction) => {
   try {

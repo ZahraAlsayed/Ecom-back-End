@@ -13,4 +13,9 @@ export const dev = {
   db: {
     url: String(process.env.MONGODB_URL) ,
   },
+  // cloud: {
+  //   cloudinaryName:process.env.CLOUDINARY_NAME,
+  //   cloudinaryApiKey:process.env.CLOUDINARY_API_KEY,
+  //   cloudinarySecretKey:process.env.CLOUDINARY_SECRET_KEY,
+  // },
 }

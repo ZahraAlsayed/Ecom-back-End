@@ -45,8 +45,8 @@ categoryRoutes.post(
   '/',
   // isLoggedIn,
   // isAdmin,
-  createCategoryValidation,
-  runValidation,
+  // createCategoryValidation,
+  // runValidation,
   createCategory
 )
 categoryRoutes.put('/:id', updateSingleCategoryId)

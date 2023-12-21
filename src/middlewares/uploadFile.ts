@@ -11,9 +11,9 @@ const ProductsStorge = multer.diskStorage({
 })
 
 const userStorge = multer.diskStorage({
-  destination: function (req : Request, file :Express.Multer.File, cb) {
-    cb(null, 'public/images/users')
-  },
+  // destination: function (req : Request, file :Express.Multer.File, cb) {
+  //   cb(null, 'public/images/users')
+  // },
   filename: function (req, file, cb) {
     cb(null, Date.now() + '-' + file.originalname)
   },

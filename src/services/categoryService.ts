@@ -42,20 +42,6 @@ export const findCtegoryBySlug = async (slug: string): Promise<CategoryInput> =>
   return category
 }
 
-export const createNewCategory = async (name: string) => {
-  const categoryExist = await Category.exists({ name: name })
-  if (categoryExist) {
-    const error = createHttpError(409, 'Category already exists with this name')
-    throw error
-  }
-  const newCategory = new Category({
-    name,
-    slug: slugify(name),
-  })
-
-  await newCategory.save()
-}
-
 export const updateCategoryById = async (
   id: string,
   updatedCategoryDate: CategoryInput
