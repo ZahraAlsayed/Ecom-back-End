@@ -11,6 +11,7 @@ import {
   unbanUser,
   forgetPassword,
   resetPassword,
+  updateRole,
 } from '../controllers/userControllers'
 import { uploadUsersimage } from '../middlewares/uploadFile'
 import { userRegistrationValidator } from '../validation/userValidation'
@@ -36,7 +37,7 @@ const userRoutes = Router()
 // userRoutes.delete('/:id', isLoggedIn, isAdmin, deleteSingleUser)
 // userRoutes.post('/forget-password', isLoggedOut, forgetPassword)
 // userRoutes.post('/reset-password', isLoggedOut, resetPassword)
-
+userRoutes.put('/role/:id', isLoggedIn, isAdmin, updateRole)
 userRoutes.post(
   '/process-register',
   uploadUsersimage.single('image'),

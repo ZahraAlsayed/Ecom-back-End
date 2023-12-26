@@ -38,7 +38,7 @@ const categoryRoutes = express.Router()
 // )
 // categoryRoutes.delete('/:id', isLoggedIn, isAdmin, deleteSingleCategoryById)
 // categoryRoutes.delete('/:slug', isLoggedIn, isAdmin, deleteSingleCategoryBySlug)
-categoryRoutes.get('/',  getAllCategories)
+ categoryRoutes.get('/',  getAllCategories)
 categoryRoutes.get('/:id', getSingleCategoryById)
 categoryRoutes.get('/:slug', getSingleCategoryBySlug)
 categoryRoutes.post(

@@ -14,7 +14,8 @@ import {
   deleteUser,
   forgetPasswordAction,
   resstPasswordAction,
-  activeUser,
+  updateRoleeById,
+
 } from '../services/userService'
 import { UsersInput } from '../types/userTypes'
 import { handleCastError } from '../util/handelMongoID'
@@ -30,7 +31,7 @@ export const processRegisterUserController = async (
 ) => {
   try {
     const { name, email, password, address, phone, isAdmin } = req.body
-    const imagePath = req.file?.path
+    const imagePath = req.file && req.file?.path
 
     const token = await processRegisterUserService(
       name,
@@ -121,7 +122,7 @@ export const unbanUser = async (req: Request, res: Response, next: NextFunction)
 export const getAllUsers = async (req: Request, res: Response, next: NextFunction) => {
   try {
     let page = Number(req.query.page) || 1
-    const limit = Number(req.query.limit) || 3
+    const limit = Number(req.query.limit) || 10
     const search = req.query.search as string
 
     const { users, totalPage, currentPage } = await findAllUsers(page, limit, search)
@@ -165,16 +166,15 @@ export const updateSingleUser = async (req: Request, res: Response, next: NextFu
 
 export const deleteSingleUser = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const user = await deleteUser(req.params.id)
-
-    if (user && user.image) {
-      await deleteImage(user.image)
-    }
-    res.status(200).send({
-      message: ' user is deleted ',
-    })
+    await deleteUser(req.params.id)
+    res.send({ message: 'The user is deleted successfully' })
   } catch (error) {
-    handleCastError(error, next)
+    if (error instanceof mongoose.Error.CastError) {
+      const error = createHttpError(400, 'User Id format is not valid')
+      next(error)
+    } else {
+      next(error)
+    }
   }
 }
 export const forgetPassword = async (req: Request, res: Response, next: NextFunction) => {
@@ -201,5 +201,16 @@ export const resetPassword = async (req: Request, res: Response, next: NextFunct
     })
   } catch (error) {
     next(error)
+  }
+}
+export const updateRole = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    await updateRoleeById(req.params.id)
+
+    res.status(200).send({
+      message: 'updated the user role to Admin',
+    })
+  } catch (error) {
+    handleCastError(error, next)
   }
 }

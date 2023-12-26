@@ -6,6 +6,8 @@ import {
   deleteSingleProduct,
   createSingleProduct,
   updateSingleProduct,
+  updateSingleProductByslug,
+  getFiltereedProducts,
 } from '../controllers/productControllers'
 
 import { createProductValidation, updateProductValidation } from '../validation/productValidation'
@@ -40,6 +42,8 @@ const productRoutes = Router()
 
 
 productRoutes.get('/', getAllProducts)
+productRoutes.get('/filter-products', getFiltereedProducts)
+
 productRoutes.get('/:slug', getSingleProduct)
 productRoutes.post(
   '/',
@@ -53,7 +57,7 @@ productRoutes.put(
   uploadProductimage.single('image'),
   // updateProductValidation,
   // runValidation,
-  updateSingleProduct
+  updateSingleProductByslug
 )
 productRoutes.delete('/:slug',deleteSingleProduct)
 export default productRoutes

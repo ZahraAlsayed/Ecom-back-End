@@ -39,10 +39,10 @@ export const processRegisterUserService = async (
 
   if (imagePath) {
     tokenPayload.image = imagePath
-    console.log(tokenPayload)
+
   }
 
-  const token = generateJwtToken(tokenPayload, String(dev.app.jwtUserActivationKey), '15m')
+  const token = generateJwtToken(tokenPayload, String(dev.app.jwtUserActivationKey), '30m')
 
   //send email hear => token inside the email
   const emailData = {
@@ -56,19 +56,19 @@ export const processRegisterUserService = async (
   return token
 }
 
-export const activeUser = async (token: '') => {
-  if (!token) {
-    throw createHttpError(400, 'please Provide a token')
-  }
+// export const activeUser = async (token: '') => {
+//   if (!token) {
+//     throw createHttpError(400, 'please Provide a token')
+//   }
 
-  const decoded = verifyJwtToken(token, String(dev.app.jwtUserActivationKey))
-console.log(decoded)
-  if (!decoded) {
-    throw createHttpError(401, 'Token is Invalid ')
-  }
-  const useractive = await User.create(decoded)
-  return useractive
-}
+//   const decoded = verifyJwtToken(token, String(dev.app.jwtUserActivationKey))
+// console.log(decoded)
+//   if (!decoded) {
+//     throw createHttpError(401, 'Token is Invalid ')
+//   }
+//   const useractive = await User.create(decoded)
+//   return useractive
+// }
 
 export const findAllUsers = async (page = 1, limit = 3, search = '') => {
   const count = await User.countDocuments()
@@ -162,12 +162,12 @@ export const forgetPasswordAction = async (email: string): Promise<string> => {
     const error = createHttpError(404, 'User not found')
     throw error
   }
-  const token = generateJwtToken({ email: email }, String(dev.app.jwtResetPasswordKey), '10m')
+  const token = generateJwtToken({ email: email }, String(dev.app.jwtResetPasswordKey), '30m')
   const emailData = {
     email: email,
     subjeect: 'Rest Password Email',
     html: `<h1>Hello ${user.name}</h1>
-      <p>Please Click here to  : <a href="http://localhost:5050/users/rest-password/${token}"> rest  your password</a></p>`,
+      <p>Please Click here to  : <a href="http://localhost:3000/users/rest-password/${token}"> rest  your password</a></p>`,
   }
   //send email
   await handleSendEmail(emailData)
@@ -198,4 +198,13 @@ export const resstPasswordAction = async (token: '', password: string) => {
   }
   // Return the updated user
   return user
+}
+export const updateRoleeById = async (id: string) => {
+  const user = await User.findByIdAndUpdate(id, { isAdmin: true })
+
+  if (!user) {
+    //create http error ,status 404
+    const error = createHttpError(404, 'User not found')
+    throw error
+  }
 }

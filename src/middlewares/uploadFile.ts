@@ -2,9 +2,9 @@ import { Request } from 'express'
 import multer, { FileFilterCallback } from 'multer'
 
 const ProductsStorge = multer.diskStorage({
-  destination: function (req : Request, file :Express.Multer.File, cb) {
-    cb(null, 'public/images/products')
-  },
+  // destination: function (req : Request, file :Express.Multer.File, cb) {
+  //   cb(null, 'public/images/products')
+  // },
   filename: function (req, file, cb) {
     cb(null, Date.now() + '-' + file.originalname)
   },

@@ -24,7 +24,7 @@ const app: Application = express()
 const port: number = dev.app.port
 
 app.use(cookieParser())
-app.use(myLogger)
+//app.use(myLogger)
 app.use(cors({
 origin: "http://localhost:3000",
 credentials:true, 
@@ -32,7 +32,7 @@ credentials:true,
 
 app.use('/public', express.static('public'))
 app.use(morgan('dev'))
-// 
+
 
 app.use(express.urlencoded({ extended: true }))
 app.use(express.json())
