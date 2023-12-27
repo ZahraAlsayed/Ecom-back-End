@@ -32,7 +32,6 @@ import { cloudinary } from '../config/cloudinary';
           if (response.result !== 'ok') {
             throw createHttpError(400, 'image was not deleted from cloudinary');
           }
-          console.log('image was deleted from cloudinary');
         } catch (error) {
           throw error;
         }

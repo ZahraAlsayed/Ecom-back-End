@@ -77,7 +77,6 @@ export const createCategory = async (req: Request, res: Response, next: NextFunc
 
     const category = await newCategory.save()
 
-    console.log(category)
     res.status(201).send({
       message: 'The category has been created successfully',
       payload: category,

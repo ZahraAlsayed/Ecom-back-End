@@ -56,19 +56,7 @@ export const processRegisterUserService = async (
   return token
 }
 
-// export const activeUser = async (token: '') => {
-//   if (!token) {
-//     throw createHttpError(400, 'please Provide a token')
-//   }
 
-//   const decoded = verifyJwtToken(token, String(dev.app.jwtUserActivationKey))
-// console.log(decoded)
-//   if (!decoded) {
-//     throw createHttpError(401, 'Token is Invalid ')
-//   }
-//   const useractive = await User.create(decoded)
-//   return useractive
-// }
 
 export const findAllUsers = async (page = 1, limit = 3, search = '') => {
   const count = await User.countDocuments()
@@ -203,7 +191,6 @@ export const updateRoleeById = async (id: string) => {
   const user = await User.findByIdAndUpdate(id, { isAdmin: true })
 
   if (!user) {
-    //create http error ,status 404
     const error = createHttpError(404, 'User not found')
     throw error
   }

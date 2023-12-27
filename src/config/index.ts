@@ -8,7 +8,12 @@ export const dev = {
     jwtResetPasswordKey: process.env.JWT_REST_PASSWORD_KEY ,
     jwtAccessKey: process.env.JWT_ACCESS_KEY ,
     stmpUsername: process.env.STMP_USERNAME ,
-    stmpPassword: process.env.STMP_PASSWORD ,
+    stmpPassword: process.env.STMP_PASSWORD,
+    braintreeMerchantId:process.env.BRAINTREE_MERCHANT_ID,
+    braintreePublickey: process.env.BRAINTREE_PUBLIC_KEY,
+    braintreePrivatekey : process.env.BRAINTREE_PRIVATE_KEY
+
+    
   },
   db: {
     url: String(process.env.MONGODB_URL) ,

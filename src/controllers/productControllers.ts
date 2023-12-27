@@ -14,6 +14,18 @@ import { Product } from '../models/productSchema'
 import { deleteFromCloudinary, uploadToCloudinary, valueWithoutExtension } from '../helper/cloudinaryHelper'
 import { createHttpError } from '../util/createHTTPError'
 import slugify from 'slugify'
+import { dev } from '../config'
+import { Order } from '../models/orderSchema'
+
+const braintree = require('braintree')
+
+const gateway = new braintree.BraintreeGateway({
+  environment: braintree.Environment.Sandbox,
+  merchantId: dev.app.braintreeMerchantId,
+  publicKey: dev.app.braintreePublickey,
+  privateKey: dev.app.braintreePrivatekey,
+})
+
 
 export const getAllProducts = async (req: Request, res: Response, next: NextFunction) => {
   try {
@@ -169,6 +181,51 @@ export const deleteSingleProduct = async (req: Request, res: Response, next: Nex
     await deleteProduct(req.params.slug)
     res.send({
       message: ' The product is deleted successfully ',
+    })
+  } catch (error) {
+    next(error)
+  }
+}
+
+export const generateBraintreeToken = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const braintreeclientToken = await gateway.clientToken.generate({})
+    if (!braintreeclientToken) {
+      throw createHttpError(404, 'braintree token not generated')
+    }
+    res.status(200).send(braintreeclientToken)
+  } catch (error) {
+    next(error)
+  }
+}
+interface CustomRequest extends Request {
+  userId?: string
+}
+export const handleBraintreePayment = async (req: CustomRequest, res: Response, next: NextFunction) => {
+  try {
+    const { nonce, cartItems, amount } = req.body
+
+    const result = await gateway.transaction.sale({
+      amount: amount,
+      paymentMethodNonce: nonce,
+      options: {
+        submitForSettlement: true,
+      },
+    })
+    if (result.success) {
+      const order = new Order({
+        products: cartItems,
+        payment: result,
+        user: req.userId,
+      })
+      await order.save()
+      return order
+    } else {
+      console.error(result.message)
+    }
+
+    res.status(201).send({
+      message: 'order created successfully',
     })
   } catch (error) {
     next(error)

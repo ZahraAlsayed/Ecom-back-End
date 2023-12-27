@@ -208,7 +208,7 @@ export const updateRole = async (req: Request, res: Response, next: NextFunction
     await updateRoleeById(req.params.id)
 
     res.status(200).send({
-      message: 'updated the user role to Admin',
+      message: 'updated the user role status',
     })
   } catch (error) {
     handleCastError(error, next)

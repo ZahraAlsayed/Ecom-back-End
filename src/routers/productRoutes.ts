@@ -8,6 +8,8 @@ import {
   updateSingleProduct,
   updateSingleProductByslug,
   getFiltereedProducts,
+  generateBraintreeToken,
+  handleBraintreePayment,
 } from '../controllers/productControllers'
 
 import { createProductValidation, updateProductValidation } from '../validation/productValidation'
@@ -17,47 +19,29 @@ import { isAdmin, isLoggedIn } from '../middlewares/auth'
 
 const productRoutes = Router()
 
-// productRoutes.get('/', getAllProducts)
-// productRoutes.get('/:slug', getSingleProduct)
-// productRoutes.post(
-//   '/',
-//   isLoggedIn,
-//   isAdmin,
-//   uploadProductimage.single('image'),
-//   createProductValidation,
-//   runValidation,
-//   createSingleProduct
-// )
-// productRoutes.put(
-//   '/:slug',
-//   isLoggedIn,
-//   isAdmin,
-//   uploadProductimage.single('image'),
-//   updateProductValidation,
-//   runValidation,
-//   updateSingleProduct
-// )
-// productRoutes.delete('/:slug', isLoggedIn, isAdmin, deleteSingleProduct)
-// export default productRoutes
-
-
 productRoutes.get('/', getAllProducts)
-productRoutes.get('/filter-products', getFiltereedProducts)
-
 productRoutes.get('/:slug', getSingleProduct)
+productRoutes.get('/filter-products', getFiltereedProducts)
+productRoutes.get('/braintree/token',isLoggedIn, generateBraintreeToken)
+productRoutes.post('/braintree/payment', isLoggedIn, handleBraintreePayment)
 productRoutes.post(
   '/',
+  isLoggedIn,
+  isAdmin,
   uploadProductimage.single('image'),
-  // createProductValidation,
-  // runValidation,
+  createProductValidation,
+  runValidation,
   createSingleProduct
 )
 productRoutes.put(
   '/:slug',
+  isLoggedIn,
+  isAdmin,
   uploadProductimage.single('image'),
-  // updateProductValidation,
-  // runValidation,
-  updateSingleProductByslug
+  updateProductValidation,
+  runValidation,
+  updateSingleProduct
 )
-productRoutes.delete('/:slug',deleteSingleProduct)
+productRoutes.delete('/:slug', isLoggedIn, isAdmin, deleteSingleProduct)
+
 export default productRoutes

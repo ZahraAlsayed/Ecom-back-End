@@ -43,10 +43,10 @@ categoryRoutes.get('/:id', getSingleCategoryById)
 categoryRoutes.get('/:slug', getSingleCategoryBySlug)
 categoryRoutes.post(
   '/',
-  // isLoggedIn,
-  // isAdmin,
-  // createCategoryValidation,
-  // runValidation,
+  isLoggedIn,
+  isAdmin,
+  createCategoryValidation,
+  runValidation,
   createCategory
 )
 categoryRoutes.put('/:id', updateSingleCategoryId)
